@@ -1,7 +1,8 @@
 ////////// APP CONFIG
-
 const express = require("express");
 const morgan = require("morgan"); // http request logger
+
+const ApiError = require("./utils/apiError");
 const tourRouter = require("./routes/tourRoutes");
 const userRouter = require("./routes/userRoutes");
 
@@ -31,20 +32,21 @@ app.use((req, res, next) => {
   next();
 });
 
-// mounting routers after importing them, apply router middlewares with use.
+// mounting routers after importing them, apply router middlewares with use().
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 
 // if not handled by the above routes:
 app.all("*", (req, res, next) => {
-  const err = new Error(`Can't find ${req.originalUrl}`);
-  err.status = "fail";
-  err.statusCode = 404;
-  next(err); // passed into next(), which goes to middleware func below.
+  // create new ApiError instance.
+  // passed into next(), which goes to middleware func below.
+  next(new ApiError(`Can't find ${req.originalUrl}`, 404));
 });
 
 // Error handling middleware: 4 args
 app.use((err, req, res, next) => {
+  // console.log(err.stack);
+
   err.statusCode = err.statusCode || 500; // internal server error
   err.status = err.status || "error";
 
