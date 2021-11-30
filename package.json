@@ -1,0 +1,21 @@
+{
+  "name": "divetours",
+  "version": "1.0.0",
+  "description": "diveTours Server",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon server.js",
+    "start:prod": "NODE_ENV=production nodemon server.js",
+    "debug": "ndb server.js"
+  },
+  "author": "Sarah Ruello",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.5.2",
+    "morgan": "^1.10.0",
+    "ndb": "^1.1.5",
+    "nodemon": "^2.0.15"
+  }
+}
